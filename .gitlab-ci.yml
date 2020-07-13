@@ -1,0 +1,13 @@
+variables:
+  IMAGE_URI_BASE: "registry.gitlab.com/signaleleven"
+  CI_REGISTRY_TAG: "${CI_COMMIT_REF_SLUG}-${CI_PIPELINE_ID}"
+
+stages:
+  - build
+
+build:
+  stage: build
+  services:
+    - docker:dind
+  script:
+    - docker build -t ${IMAGE_URI_BASE}/soundcloud2icecast:${CI_REGISTRY_TAG}
