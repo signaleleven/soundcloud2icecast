@@ -8,21 +8,22 @@ import io
 import time
 import random
 import datetime
+import os 
 
 api = SoundcloudAPI()
 
-playlist = api.resolve('https://soundcloud.com/poolsidefm/sets/poolside-fm-official-playlist')
-total=0
+playlist = api.resolve(os.environ.get('SOUNDCLOUD_PLAYLIST'))
 s = shout.Shout()
 print("Using libshout version %s" % shout.version())
-s.host = 'vpn.signal-eleven.com'
-s.password = 'banana'
-s.mount = "/stream"
+s.host = os.environ.get('ICECAST_HOST')
+s.password = os.environ.get('ICECAST_PASSWORD')
+s.mount = os.environ.get('ICECAST_MOUNTPOINT','/stream')
 s.format = 'mp3'
-s.url = 'radio.signal-eleven.com'
-s.genre = 'poolside music'
-s.public = 0
-s.name = 'Poolside PM'
+s.url = os.environ.get('ICECAST_URL', "unknown")
+s.genre = os.environ.get('ICECAST_GENRE', "unknown")
+s.public = os.environ.get('ICECAST_PUBLIC', 0) 
+s.name = os.environ.get('ICECAST_STREAM_NAME', "unknown")
+s.description = os.environ.get('ICECAST_STREAM_DESCRIPTION', "No Description")
 s.open()
 
 def get_url(url):
@@ -36,22 +37,6 @@ def get_obj_from(url):
       return json.loads(get_page(url))
   except Exception as e:
       return False                                                                                                                                                      
-def slugify(value, allow_unicode=False):
-    """
-    Convert to ASCII if 'allow_unicode' is False. Convert spaces or repeated
-    dashes to single dashes. Remove characters that aren't alphanumerics,
-    underscores, or hyphens. Convert to lowercase. Also strip leading and
-    trailing whitespace, dashes, and underscores.
-    """
-    value = str(value)
-    if allow_unicode:
-        value = unicodedata.normalize('NFKC', value)
-    else:
-        value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
-    value = re.sub(r'[^\w\s-]', '', value.lower())
-    return re.sub(r'[-\s]+', '-', value).strip('-_')
-
-
 assert type(playlist) is Playlist                                                                                                                                         
 while True:
     track=random.choice(playlist.tracks)
@@ -59,19 +44,18 @@ while True:
         if random.random() > 0.5:
             print("Randomly skipping old track %s released %s" % (track.title, track.display_date))
             continue
+        else:
+            print("Randomly allowing old track %s released %s" % (track.title, track.display_date))
     for transcode in track.media['transcodings']:
         if transcode['format']['protocol'] == "progressive":
             print(track.title)
-            s.set_metadata({'song': track.title})
+            s.set_metadata({'song': track.artist + " - " + track.title + ' / ' + track.uri})
             url=get_obj_from(transcode['url'] + "?client_id=" + track.client.client_id)['url']
-            filename = f'./{track.artist} - {track.title}'
             f=io.BytesIO(urlopen(url).read())
             nbuf = f.read(4096)
             while 1:
                 buf = nbuf
                 nbuf = f.read(4096)
-                total = total + len(buf)
-                #print(total)
                 if len(buf) == 0:
                  print("end of song")
                  break
@@ -79,4 +63,4 @@ while True:
                 s.sync()
             f.close()
         else:
-            print("skipping unplayable url")
+            print("skipping unplayable url for " + track.title)
