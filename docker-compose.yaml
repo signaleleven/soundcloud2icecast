@@ -10,14 +10,25 @@ services:
       - 'ICECAST_SOURCE_PASSWORD=icecastpassword'
       - 'ICECAST_ADMIN_PASSWORD=icecastadminpwd'
       - 'ICECAST_RELAY_PASSWORD=icecastrelaypwd'
-      - 'ICECAST_HOSTNAME=radio.signal-eleven.com'
-        #    volumes:
-        #- '/etc/localtime:/etc/localtime:ro'
     ports:
       - '8000:8000'
     networks:
       - radio
 
+
+  indie_summer:
+    image: signaleleven/soundcloud2icecast:latest
+    restart: always
+    environment:
+      - 'ICECAST_PASSWORD=icecastpassword'
+      - 'ICECAST_HOST=icecast'
+      - 'ICECAST_GENRE=disco'
+      - 'SOUNDCLOUD_PLAYLIST=https://soundcloud.com/poolsidefm/sets/indie-summer'
+      - 'ICECAST_MOUNTPOINT=/stream'
+      - 'ICECAST_STREAM_NAME=PoolsideFM Indie Summer'
+      - 'ICECAST_STREAM_DESCRIPTION=A vacation for your mind - indie summer'
+    networks:
+      - radio
 
   poolside_fm:
     image: signaleleven/soundcloud2icecast:latest
@@ -25,23 +36,10 @@ services:
     environment:
       - 'ICECAST_PASSWORD=icecastpassword'
       - 'ICECAST_HOST=icecast'
-      - 'ICECAST_GENRE=disco'
-      - 'SOUNDCLOUD_PLAYLIST=https://soundcloud.com/mugatunesofficial/sets/audible-adderall-14'
-      - 'ICECAST_MOUNTPOINT=/stream'
-      - 'ICECAST_STREAM_NAME=PoolsideFM'
-      - 'ICECAST_STREAM_DESCRIPTION=A vacation for your mind'
-    networks:
-      - radio
-
-  audible_adderall:
-    image: signaleleven/soundcloud2icecast:latest
-    restart: always
-    environment:
-      - 'ICECAST_PASSWORD=icecastpassword'
-      - 'ICECAST_HOST=icecast'
       - 'ICECAST_GENRE=ambient'
       - 'ICECAST_MOUNTPOINT=adderall'
-      - 'ICECAST_STREAM_NAME=Audible Adderall'
+      - 'ICECAST_STREAM_NAME=PoolsideFM'
+      - 'ICECAST_STREAM_DESCRIPTION=A vacation for your mind'
       - 'SOUNDCLOUD_PLAYLIST=https://soundcloud.com/poolsidefm/sets/poolside-fm-official-playlist'
     networks:
       - radio
