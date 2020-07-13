@@ -1,0 +1,51 @@
+version: '2'
+
+services:
+
+
+  icecast:
+    image: infiniteproject/icecast:latest
+    restart: always
+    environment:
+      - 'ICECAST_SOURCE_PASSWORD=icecastpassword'
+      - 'ICECAST_ADMIN_PASSWORD=icecastadminpwd'
+      - 'ICECAST_RELAY_PASSWORD=icecastrelaypwd'
+      - 'ICECAST_HOSTNAME=radio.signal-eleven.com'
+        #    volumes:
+        #- '/etc/localtime:/etc/localtime:ro'
+    ports:
+      - '8000:8000'
+    networks:
+      - radio
+
+
+  poolside_fm:
+    image: signaleleven/soundcloud2icecast:latest
+    restart: always
+    environment:
+      - 'ICECAST_PASSWORD=icecastpassword'
+      - 'ICECAST_HOST=icecast'
+      - 'ICECAST_GENRE=disco'
+      - 'SOUNDCLOUD_PLAYLIST=https://soundcloud.com/mugatunesofficial/sets/audible-adderall-14'
+      - 'ICECAST_MOUNTPOINT=/stream'
+      - 'ICECAST_STREAM_NAME=PoolsideFM'
+      - 'ICECAST_STREAM_DESCRIPTION=A vacation for your mind'
+    networks:
+      - radio
+
+  audible_adderall:
+    image: signaleleven/soundcloud2icecast:latest
+    restart: always
+    environment:
+      - 'ICECAST_PASSWORD=icecastpassword'
+      - 'ICECAST_HOST=icecast'
+      - 'ICECAST_GENRE=ambient'
+      - 'ICECAST_MOUNTPOINT=adderall'
+      - 'ICECAST_STREAM_NAME=Audible Adderall'
+      - 'SOUNDCLOUD_PLAYLIST=https://soundcloud.com/poolsidefm/sets/poolside-fm-official-playlist'
+    networks:
+      - radio
+        
+networks:
+  radio:
+    driver: bridge
