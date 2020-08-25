@@ -23,8 +23,7 @@ services:
       - 'ICECAST_PASSWORD=icecastpassword'
       - 'ICECAST_HOST=icecast'
       - 'ICECAST_GENRE=disco'
-      - 'SOUNDCLOUD_PLAYLIST=https://soundcloud.com/poolsidefm/sets/indie-summer'
-      - 'ICECAST_MOUNTPOINT=/indie_summer'
+      - 'SOUNDCLOUD_PLAYLIST=indie-summer'
       - 'ICECAST_STREAM_NAME=PoolsideFM Indie Summer'
       - 'ICECAST_STREAM_DESCRIPTION=A vacation for your mind - indie summer'
     networks:
@@ -37,10 +36,9 @@ services:
       - 'ICECAST_PASSWORD=icecastpassword'
       - 'ICECAST_HOST=icecast'
       - 'ICECAST_GENRE=ambient'
-      - 'ICECAST_MOUNTPOINT=/stream'
       - 'ICECAST_STREAM_NAME=PoolsideFM'
       - 'ICECAST_STREAM_DESCRIPTION=A vacation for your mind'
-      - 'SOUNDCLOUD_PLAYLIST=https://soundcloud.com/poolsidefm/sets/poolside-fm-official-playlist'
+      - 'SOUNDCLOUD_PLAYLIST=default'
     networks:
       - radio
         
