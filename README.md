@@ -25,5 +25,3 @@ See `LICENSE.txt`
 Disclaimer
 ----------
 I started this project to scratch my own itch of having the tracks from [the awesome poolside.fm](https://poolside.fm) streamed to my kitchen, where I could only reliable stream shoutcast/icecast sources. 
-I am not entirely sure of the the legality of using the Soundcloud API to obtain and re-stream tracks. 
-It's not my fault :D 
