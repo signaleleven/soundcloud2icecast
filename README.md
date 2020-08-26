@@ -24,4 +24,4 @@ See `LICENSE.txt`
 
 Disclaimer
 ----------
-I started this project to scratch my own itch of having the tracks from [the awesome poolside.fm](https://poolside.fm) streamed to my kitchen, where I could only reliable stream shoutcast/icecast sources. 
+I started this project to scratch my own itch of having the tracks from [the awesome poolside.fm](https://poolside.fm) streamed to my kitchen, where I could only reliably stream shoutcast/icecast sources. 
