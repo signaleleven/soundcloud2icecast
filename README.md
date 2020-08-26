@@ -22,6 +22,12 @@ License
 -------
 See `LICENSE.txt`
 
+Todo
+----
+- Add ssl frontend (traefik?)
+- Disable admin path (does icecast support it or traefik?)
+
+
 Disclaimer
 ----------
 I started this project to scratch my own itch of having the tracks from [the awesome poolside.fm](https://poolside.fm) streamed to my kitchen, where I could only reliably stream shoutcast/icecast sources. 
